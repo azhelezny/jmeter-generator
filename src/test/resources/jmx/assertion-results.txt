@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testResults version="1.2">
+<sample ng="1" na="1">
+  <responseData class="java.lang.String">Table/View &apos;FOO&apos; does not exist.</responseData>
+</sample>
+<sample ng="1" na="1">
+  <responseData class="java.lang.String">FOO_COL1
+</responseData>
+</sample>
+<sample ng="1" na="1">
+  <responseData class="java.lang.String">FOO_COL1
+</responseData>
+</sample>
+<sample ng="1" na="1">
+  <responseData class="java.lang.String">FOO_COL1
+</responseData>
+</sample>
+<sample ng="1" na="1">
+  <responseData class="java.lang.String">Table/View &apos;SCHEMANAME.FOOLS&apos; does not exist.</responseData>
+</sample>
+
+</testResults>

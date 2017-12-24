@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.8" jmeter="2.13 r1665067">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="test suite variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="QUERY_TIMEOUT" elementType="Argument">
+            <stringProp name="Argument.name">QUERY_TIMEOUT</stringProp>
+            <stringProp name="Argument.value">3600</stringProp>
+            <stringProp name="Argument.desc">timeout value for all test queries</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="SERVER" elementType="Argument">
+            <stringProp name="Argument.name">SERVER</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.desc">hostname/IP of the database server to connect to</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="LOGDIR" elementType="Argument">
+            <stringProp name="Argument.name">LOGDIR</stringProp>
+            <stringProp name="Argument.value">~/logs/TESTSUITENAME</stringProp>
+            <stringProp name="Argument.desc">directory for Save Responses to a file Listener</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="SCHEMA" elementType="Argument">
+            <stringProp name="Argument.name">SCHEMA</stringProp>
+            <stringProp name="Argument.value">SCHEMANAME</stringProp>
+            <stringProp name="Argument.desc">schema name used throughout</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DATADIR" elementType="Argument">
+            <stringProp name="Argument.name">DATADIR</stringProp>
+            <stringProp name="Argument.value">/data/SCHEMANAME/</stringProp>
+            <stringProp name="Argument.desc">data directory used by import </stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="BADDIR" elementType="Argument">
+            <stringProp name="Argument.name">BADDIR</stringProp>
+            <stringProp name="Argument.value">/BAD</stringProp>
+            <stringProp name="Argument.desc">bad records dir used by import</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="test database" enabled="true">
+        <boolProp name="autocommit">true</boolProp>
+        <stringProp name="checkQuery">values(1)</stringProp>
+        <stringProp name="connectionAge">5000</stringProp>
+        <stringProp name="dataSource">testDatabase</stringProp>
+        <stringProp name="dbUrl">jdbc:splice://${SERVER}:1527/splicedb</stringProp>
+        <stringProp name="driver">com.splicemachine.db.jdbc.ClientDriver</stringProp>
+        <boolProp name="keepAlive">true</boolProp>
+        <stringProp name="password">admin</stringProp>
+        <stringProp name="poolMax">10</stringProp>
+        <stringProp name="timeout">10000</stringProp>
+        <stringProp name="transactionIsolation">DEFAULT</stringProp>
+        <stringProp name="trimInterval">60000</stringProp>
+        <stringProp name="username">splice</stringProp>
+      </JDBCDataSource>
+      <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setup" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1448387182000</longProp>
+        <longProp name="ThreadGroup.end_time">1448387182000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="drop tables" enabled="false"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="drop table01" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Update Statement</stringProp>
+            <stringProp name="query">DROP TABLE ${SCHEMA}.TABLE01</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="drop schema" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Update Statement</stringProp>
+            <stringProp name="query">DROP SCHEMA ${SCHEMA} RESTRICT</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="create tables" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="create schema" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Update Statement</stringProp>
+            <stringProp name="query">CREATE SCHEMA ${SCHEMA}</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="create foo" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Update Statement</stringProp>
+            <stringProp name="query">CREATE TABLE ${SCHEMA}.FOO (
+ foo_col1 BIGINT NOT NULL
+ )</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="import data" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="import foo" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Callable Statement</stringProp>
+            <stringProp name="query">call SYSCS_UTIL.IMPORT_DATA (&apos;${SCHEMA}&apos;, &apos;foo&apos;, null, &apos;${DATADIR}/foo&apos;, &apos;,&apos;, null, null, null, null, 0, &apos;${BADDIR}&apos;)</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="create indexes" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="INDEX01" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Callable Statement</stringProp>
+            <stringProp name="query">create index ${SCHEMA}.INDEX01 on ${SCHEMA}.FOO(
+ foo_col1
+ )</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="collect statistics" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="collect statistics" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Callable Statement</stringProp>
+            <stringProp name="query">call SYSCS_UTIL.COLLECT_SCHEMA_STATISTICS(&apos;${SCHEMA}&apos;, false)</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="major compaction" enabled="false"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="major compaction" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="queryType">Callable Statement</stringProp>
+            <stringProp name="query">call SYSCS_UTIL.SYSCS_PERFORM_MAJOR_COMPACTION_ON_SCHEMA(&apos;${SCHEMA}&apos;)</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="queryTimeout"></stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <Summariser guiclass="SummariserGui" testclass="Summariser" testname="setup" enabled="true"/>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultSaver guiclass="ResultSaverGui" testclass="ResultSaver" testname="Save Responses to a file" enabled="true">
+          <stringProp name="FileSaver.filename">${LOGDIR}/setup/${__samplerName}.</stringProp>
+          <boolProp name="FileSaver.errorsonly">false</boolProp>
+          <boolProp name="FileSaver.skipautonumber">false</boolProp>
+          <boolProp name="FileSaver.skipsuffix">false</boolProp>
+          <boolProp name="FileSaver.successonly">false</boolProp>
+          <stringProp name="FileSaver.numberPadLen">2</stringProp>
+        </ResultSaver>
+        <hashTree/>
+        <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>false</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename">${LOGDIR}/setup/assertion-results.log</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="run_explain" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <longProp name="ThreadGroup.start_time">1448047074000</longProp>
+        <longProp name="ThreadGroup.end_time">1448047074000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="explain01" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="explain01" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="query">-- EXPLAIN QUERY 01
+explain select * from foo
+-- END OF QUERY</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">${QUERY_TIMEOUT}</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree/>
+        </hashTree>
+        <Summariser guiclass="SummariserGui" testclass="Summariser" testname="run_explains" enabled="true"/>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultSaver guiclass="ResultSaverGui" testclass="ResultSaver" testname="Save Responses to a file" enabled="true">
+          <stringProp name="FileSaver.filename">${LOGDIR}/explain/${__samplerName}.</stringProp>
+          <boolProp name="FileSaver.errorsonly">false</boolProp>
+          <boolProp name="FileSaver.skipautonumber">false</boolProp>
+          <boolProp name="FileSaver.skipsuffix">false</boolProp>
+          <boolProp name="FileSaver.successonly">false</boolProp>
+          <stringProp name="FileSaver.numberPadLen">2</stringProp>
+        </ResultSaver>
+        <hashTree/>
+        <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>false</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename">${LOGDIR}/explain/assertion-results.log</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="run_queries" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
+        <longProp name="ThreadGroup.start_time">1448047074000</longProp>
+        <longProp name="ThreadGroup.end_time">1448047074000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="query01" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="query01" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="query">-- QUERY 01
+select * from foo
+-- END OF QUERY</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">${QUERY_TIMEOUT}</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="response assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1511144821">L_RETURNFLAG	L_LINESTATUS	SUM_QTY	SUM_BASE_PRICE	SUM_DISC_PRICE	SUM_CHARGE	AVG_QTY	AVG_PRICE	AVG_DISC	COUNT_ORDER
+A	F	37734107.00	56586554400.73	53758257134.8700	55909065222.827692	25.5220	38273.1297	0.0499	1478493
+N	F	991417.00	1487504710.38	1413082168.0541	1469649223.194375	25.5164	38284.4677	0.0500	38854
+N	O	74476040.00	111701729697.74	106118230307.6056	110367043872.497010	25.5022	38249.1179	0.0499	2920374
+R	F	37719753.00	56568041380.90	53741292684.6040	55889619119.831932	25.5057	38250.8546	0.0500	1478870
+</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data_as_document</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="query02" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="query02" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="query">-- QUERY 01
+select foo_col1 from ${SCHEMA}.foo
+-- END OF QUERY</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">${QUERY_TIMEOUT}</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="response assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1842277760">FOO_COL1
+</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="query02rt" enabled="true"/>
+          <hashTree>
+            <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="query02" enabled="true">
+              <stringProp name="dataSource">testDatabase</stringProp>
+              <stringProp name="query">-- QUERY 01
+select foo_col1 from ${SCHEMA}.foo
+-- END OF QUERY</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
+              <stringProp name="queryTimeout">${QUERY_TIMEOUT}</stringProp>
+              <stringProp name="queryType">Select Statement</stringProp>
+              <stringProp name="resultSetHandler">Store as Object</stringProp>
+              <stringProp name="resultVariable"></stringProp>
+              <stringProp name="variableNames"></stringProp>
+            </JDBCSampler>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="response assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="10">
+</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <Summariser guiclass="SummariserGui" testclass="Summariser" testname="run_queries" enabled="true"/>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>false</time>
+              <latency>false</latency>
+              <timestamp>false</timestamp>
+              <success>false</success>
+              <label>false</label>
+              <code>false</code>
+              <message>false</message>
+              <threadName>false</threadName>
+              <dataType>false</dataType>
+              <encoding>false</encoding>
+              <assertions>false</assertions>
+              <subresults>true</subresults>
+              <responseData>true</responseData>
+              <samplerData>false</samplerData>
+              <xml>true</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename">${LOGDIR}/queries/assertion-results.txt</stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultSaver guiclass="ResultSaverGui" testclass="ResultSaver" testname="Save Responses to a file" enabled="true">
+          <stringProp name="FileSaver.filename">${LOGDIR}/queries/${__samplerName}.</stringProp>
+          <boolProp name="FileSaver.errorsonly">false</boolProp>
+          <boolProp name="FileSaver.skipautonumber">false</boolProp>
+          <boolProp name="FileSaver.skipsuffix">false</boolProp>
+          <boolProp name="FileSaver.successonly">false</boolProp>
+          <stringProp name="FileSaver.numberPadLen">2</stringProp>
+        </ResultSaver>
+        <hashTree/>
+        <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>false</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <threadCounts>true</threadCounts>
+            </value>
+          </objProp>
+          <stringProp name="filename">${LOGDIR}/queries/assertion-results.log</stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="query03" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="query02" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="query">-- QUERY 01
+select foo_col1 from ${SCHEMA}.foo
+-- END OF QUERY</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">${QUERY_TIMEOUT}</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="response assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings"/>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="blblblbllb" enabled="true"/>
+        <hashTree>
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="query02" enabled="true">
+            <stringProp name="dataSource">testDatabase</stringProp>
+            <stringProp name="query">-- QUERY 01
+select foo_col1 from ${SCHEMA}.fools
+-- END OF QUERY</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">${QUERY_TIMEOUT}</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as Object</stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="response assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings"/>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
